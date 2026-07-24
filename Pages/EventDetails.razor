@@ -1,0 +1,39 @@
+@page "/event/{id:int}"
+@using EventEaseApp.Models
+@using EventEaseApp.Components
+@inject NavigationManager Navigation
+
+<h3>Детали мероприятия #@Id</h3>
+
+@if (currentEvent == null)
+{
+    <p><em>Загрузка...</em></p>
+}
+else
+{
+    <EventCard @bind-Event="currentEvent" />
+    <button class="btn btn-secondary mt-2" @onclick="GoBack">Назад</button>
+}
+
+@code {
+    [Parameter]
+    public int Id { get; set; }
+
+    private EventModel? currentEvent;
+
+    protected override void OnInitialized()
+    {
+        currentEvent = new EventModel
+        {
+            Id = Id,
+            Title = $"Мероприятие #{Id}",
+            Date = DateTime.Now.AddDays(Id),
+            Description = "Описание мероприятия EventEase."
+        };
+    }
+
+    private void GoBack()
+    {
+        Navigation.NavigateTo("/");
+    }
+}
