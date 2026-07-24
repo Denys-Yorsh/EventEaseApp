@@ -1,0 +1,61 @@
+@using System.ComponentModel.DataAnnotations
+@using EventEaseApp.Models
+
+<div class="p-3 border rounded">
+    <h4>Форма регистрации</h4>
+    <EditForm Model="@registration" OnValidSubmit="@HandleRegistration">
+        <DataAnnotationsValidator />
+        <ValidationSummary />
+
+        <div class="mb-3">
+            <label class="form-label">Имя:</label>
+            <InputText class="form-control" @bind-Value="registration.UserName" />
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Email:</label>
+            <InputText class="form-control" @bind-Value="registration.Email" />
+        </div>
+
+        <button type="submit" class="btn btn-primary" disabled="@isFull">
+            @(isFull ? "Мест нет" : "Зарегистрироваться")
+        </button>
+    </EditForm>
+
+    <div class="mt-4 p-3 bg-light border rounded">
+        <h5>Attendance Tracker (Список участников)</h5>
+        <p>Максимум мест: <strong>@MaxCapacity</strong></p>
+        <p>Зарегистрировано: <strong>@attendees.Count</strong></p>
+
+        <ul class="list-group">
+            @foreach (var user in attendees)
+            {
+                <li class="list-group-item">@user.UserName (@user.Email)</li>
+            }
+        </ul>
+    </div>
+</div>
+
+@code {
+    private RegistrationModel registration = new RegistrationModel();
+    private List<RegistrationModel> attendees = new List<RegistrationModel>();
+
+    [Parameter]
+    public int MaxCapacity { get; set; } = 5;
+
+    private bool isFull => attendees.Count >= MaxCapacity;
+
+    private void HandleRegistration()
+    {
+        if (!isFull)
+        {
+            attendees.Add(new RegistrationModel 
+            { 
+                UserName = registration.UserName, 
+                Email = registration.Email 
+            });
+            
+            registration = new RegistrationModel();
+        }
+    }
+}

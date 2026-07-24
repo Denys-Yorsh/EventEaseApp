@@ -1,0 +1,42 @@
+@using EventEaseApp.Models
+
+<div class="card shadow-sm mb-3">
+    <div class="card-body">
+        <h5 class="card-title">Карточка мероприятия</h5>
+        
+        <div class="mb-3">
+            <label class="form-label">Название мероприятия:</label>
+            <input class="form-control" value="@Event.Title" @oninput="OnTitleChanged" />
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Дата:</label>
+            <input type="date" class="form-control" @bind="Event.Date" />
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Описание:</label>
+            <textarea class="form-control" @bind="Event.Description"></textarea>
+        </div>
+
+        <hr />
+        <h6>Предпросмотр:</h6>
+        <p><strong>Заголовок:</strong> @Event.Title</p>
+        <p><strong>Дата:</strong> @Event.Date.ToShortDateString()</p>
+        <p><strong>Описание:</strong> @Event.Description</p>
+    </div>
+</div>
+
+@code {
+    [Parameter]
+    public EventModel Event { get; set; } = new EventModel();
+
+    [Parameter]
+    public EventCallback<EventModel> EventChanged { get; set; }
+
+    private async Task OnTitleChanged(ChangeEventArgs e)
+    {
+        Event.Title = e.Value?.ToString() ?? string.Empty;
+        await EventChanged.InvokeAsync(Event);
+    }
+}
