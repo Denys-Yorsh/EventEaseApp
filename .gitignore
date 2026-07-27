@@ -1,0 +1,12 @@
+## .NET / C# Visual Studio ignore rules
+bin/
+obj/
+.vs/
+.vscode/
+*.user
+*.userosscache
+*.sln.docstates
+
+## OS Generated files
+.DS_Store
+Thumbs.db
