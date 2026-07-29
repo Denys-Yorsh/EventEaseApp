@@ -7,5 +7,5 @@ This is a Blazor WebAssembly application built for the EventEase project.
 1. Make sure you have the [.NET 8.0 SDK](https://dotnet.microsoft.com/download) installed.
 2. Clone this repository:
    ```bash
-   git clone < [ССЫЛКА_НА_ВАШ_РЕПОЗИТОРИЙ](https://github.com/Denys-Yorsh/EventEaseApp) >
+   git clone https://github.com/Denys-Yorsh/EventEaseApp
    cd EventEaseApp
